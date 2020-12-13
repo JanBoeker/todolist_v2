@@ -42,6 +42,13 @@ const item3 = new Item({
 
 const defaultItems = [item1, item2, item3];
 
+const listSchema = {
+  name: String,
+  items: [itemsSchema]
+}
+
+const List = mongoose.model("List", listSchema);
+
 app.get("/", function(req, res) {
 
   Item.find(function(err, foundItems) {
@@ -70,6 +77,37 @@ app.get("/", function(req, res) {
 
 });
 
+app.get("/:customListName", function(req, res) {
+
+  const customListName = req.params.customListName;
+
+  List.findOne({
+    name: customListName
+  }, function(err, foundList) {
+
+    if (!err) {
+
+      if (!foundList) {
+        const list = new List({
+          name: customListName,
+          items: defaultItems
+        });
+
+        list.save();
+
+        res.redirect("/" + customListName);
+
+      } else {
+        res.render("list", {
+          listTitle: customListName,
+          newListItems: foundList.items
+        });
+      }
+    }
+  });
+
+});
+
 app.post("/", function(req, res) {
 
   const newItem = new Item({
@@ -82,6 +120,11 @@ app.post("/", function(req, res) {
 
 });
 
+app.post("/:listTitle", function(req, res) {
+  console.log(req.params.listTitle);
+  res.redirect("/" + req.params.listTitle);
+});
+
 app.post("/delete", function(req, res) {
 
   // Item.deleteOne({_id: req.body.checkbox}, function(err) {
@@ -91,7 +134,7 @@ app.post("/delete", function(req, res) {
   //     console.log("Successfully deleted the item with the _id: " + req.body.checkbox + ".");
   //   }
   // });
-  // 
+  //
   // res.redirect("/");
 
   Item.findByIdAndRemove(req.body.checkbox, function(err) {
@@ -101,13 +144,6 @@ app.post("/delete", function(req, res) {
     }
   });
 
-});
-
-app.get("/work", function(req, res) {
-  res.render("list", {
-    listTitle: "Work List",
-    newListItems: workItems
-  });
 });
 
 app.get("/about", function(req, res) {
