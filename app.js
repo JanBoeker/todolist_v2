@@ -15,7 +15,8 @@ app.use(express.static("public"));
 
 mongoose.connect("mongodb://localhost:27017/todolistDB", {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useFindAndModify: false
 });
 
 const itemsSchema = {
@@ -71,15 +72,35 @@ app.get("/", function(req, res) {
 
 app.post("/", function(req, res) {
 
-  const item = req.body.newItem;
+  const newItem = new Item({
+    name: req.body.newItem
+  });
 
-  if (req.body.list === "Work") {
-    workItems.push(item);
-    res.redirect("/work");
-  } else {
-    items.push(item);
-    res.redirect("/");
-  }
+  newItem.save();
+
+  res.redirect("/");
+
+});
+
+app.post("/delete", function(req, res) {
+
+  // Item.deleteOne({_id: req.body.checkbox}, function(err) {
+  //   if (err) {
+  //     console.log(err);
+  //   } else {
+  //     console.log("Successfully deleted the item with the _id: " + req.body.checkbox + ".");
+  //   }
+  // });
+  // 
+  // res.redirect("/");
+
+  Item.findByIdAndRemove(req.body.checkbox, function(err) {
+    if (!err) {
+      console.log("Successfully deleted the item with the _id: " + req.body.checkbox + ".");
+      res.redirect("/");
+    }
+  });
+
 });
 
 app.get("/work", function(req, res) {
