@@ -20,7 +20,7 @@ app.use(express.static("public"));
 //   useFindAndModify: false
 // });
 
-mongoose.connect("mongodb+srv://admin_jan:gHYXmoHz)9tHz9ZFB2W9+*^t@cluster0.uo4op.mongodb.net/todolistDB", {
+mongoose.connect("mongodb+srv://admin_jan:e$fxUNdr&z24=(Ptds3G6FHg@cluster0.uo4op.mongodb.net/todolistDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false
@@ -180,6 +180,13 @@ app.get("/about", function(req, res) {
   res.render("about");
 });
 
-app.listen(3000, function() {
-  console.log("Server started on port 3000");
+// For heroku deploy
+let port = process.env.PORT;
+
+if (port == null || port == "") {
+  port = 3000;
+}
+
+app.listen(port, function() {
+  console.log("Server started on port " + port);
 });
