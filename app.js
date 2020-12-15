@@ -14,7 +14,13 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/todolistDB", {
+// mongoose.connect("mongodb://localhost:27017/todolistDB", {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   useFindAndModify: false
+// });
+
+mongoose.connect("mongodb+srv://admin_jan:gHYXmoHz)9tHz9ZFB2W9+*^t@cluster0.uo4op.mongodb.net/todolistDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false
