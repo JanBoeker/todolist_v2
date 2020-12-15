@@ -34,14 +34,18 @@ const item1 = new Item({
 });
 
 const item2 = new Item({
-  name: "You can add items by clicking the + sign."
+  name: "You can add items by clicking the '+' sign."
 });
 
 const item3 = new Item({
+  name: "You can add custom todolists by adding the name of your list after the '/' in the url."
+});
+
+const item4 = new Item({
   name: "Check the items your finished with."
 })
 
-const defaultItems = [item1, item2, item3];
+const defaultItems = [item1, item2, item3, item4];
 
 const listSchema = {
   name: String,
