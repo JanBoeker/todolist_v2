@@ -20,7 +20,7 @@ app.use(express.static("public"));
 //   useFindAndModify: false
 // });
 
-mongoose.connect("mongodb+srv://<username>:<Password>r0.uo4op.mongodb.net/todolistDB", {
+mongoose.connect("mongodb+srv://admin_jan:e$fxUNdr&z24=(Ptds3G6FHg@cluster0.uo4op.mongodb.net/todolistDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false
